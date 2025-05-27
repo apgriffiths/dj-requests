@@ -14,7 +14,6 @@ export default function Page() {
           Live Song Requests
         </p>
       </div>
-
       {/*<!-- Request Form Container -->*/}
       <div className="bg-black bg-opacity-50 rounded-xl p-8 w-full max-w-md border-2 neon-border">
         <h2 className="text-cyan-100 text-2xl mb-6 text-center">
@@ -24,10 +23,8 @@ export default function Page() {
         {/*<!-- Currently Playing (Optional) -->*/}
         <CurrentlyPlaying />
       </div>
-
       {/*<!-- Request Queue Section -->*/}
       <RequestQueue />
-
       {/*<!-- Footer -->*/}
       <div className="mt-8 mb-6 text-cyan-200 text-sm text-center opacity-70">
         <p>Your request will be added to the queue.</p>
