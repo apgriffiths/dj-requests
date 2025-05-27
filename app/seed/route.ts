@@ -39,6 +39,7 @@ async function seedRequests() {
       trackName VARCHAR(255) NULL,
       artist VARCHAR(255) NULL,
       isPremium BOOLEAN NOT NULL,
+      isPlaying BOOLEAN DEFAULT FALSE,
       date TIMESTAMPTZ NOT NULL
     );
   `;
@@ -46,8 +47,8 @@ async function seedRequests() {
   const insertedRequests = await Promise.all(
     requests.map(
       (request) => sql`
-        INSERT INTO requests (trackName, artist, isPremium, date)
-        VALUES (${request.trackName}, ${request.artist}, ${request.isPremium}, ${request.date})
+        INSERT INTO requests (trackName, artist, isPremium, isPlaying, date)
+        VALUES (${request.trackName}, ${request.artist}, ${request.isPremium}, ${request.isPlaying}, ${request.date})
         ON CONFLICT (id) DO NOTHING;
       `
     )

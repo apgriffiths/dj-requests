@@ -22,6 +22,7 @@ export default function Form() {
           id="trackName"
           name="trackName"
           placeholder="Enter track title"
+          required
           className="input-field w-full px-6 text-white placeholder-cyan-100 placeholder-opacity-70 focus:outline-none"
         ></input>
       </div>
@@ -43,26 +44,20 @@ export default function Form() {
         ></input>
       </div>
       {/*<!-- Request Type -->*/}
-      <div>
-        <label
-          htmlFor="isPremium"
-          className="block text-cyan-200 mb-2 pl-2 text-lg"
-        >
-          Request Type
-        </label>
-        <div className="flex items-center">
-          <input
-            type="radio"
-            id="isPremium"
-            name="isPremium"
-            value="true"
-            className="h-4 w-4 cursor-pointer border-gray-300 bg-gray-100 text-gray-600 focus:ring-2"
-          />
-        </div>
+      <div id="request-success" aria-live="polite" aria-atomic="true">
+        {state.message && (
+          <p className="mt-2 text-sm text-green-500">{state.message}</p>
+        )}
       </div>
       <div id="request-error" aria-live="polite" aria-atomic="true">
         {state.errors?.trackName &&
           state.errors.trackName.map((error: string) => (
+            <p className="mt-2 text-sm text-red-500" key={error}>
+              {error}
+            </p>
+          ))}
+        {state.errors?.artist &&
+          state.errors.artist.map((error: string) => (
             <p className="mt-2 text-sm text-red-500" key={error}>
               {error}
             </p>
