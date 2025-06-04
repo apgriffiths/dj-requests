@@ -1,6 +1,7 @@
 import RequestForm from "../ui/requests/request-form";
 import CurrentlyPlaying from "../ui/requests/currently-playing";
 import RequestQueue from "../ui/requests/request-queue";
+import Link from "next/link";
 
 export default function Page() {
   return (
@@ -8,7 +9,9 @@ export default function Page() {
       {/* Logo Area */}
       <div className="logo-container text-center mb-12 w-full max-w-md">
         <h1 className="neon-blue text-6xl md:text-7xl mb-3 tracking-[0.25em] pulse">
-          DJ PHAT TONY
+          <Link href="/" className="hover:underline">
+            DJ PHAT TONY
+          </Link>
         </h1>
         <p className="text-cyan-200 text-xl tracking-wider">
           Live Song Requests
@@ -20,7 +23,6 @@ export default function Page() {
           Request A Track
         </h2>
         <RequestForm />
-        {/*<!-- Currently Playing (Optional) -->*/}
         <CurrentlyPlaying />
       </div>
       {/*<!-- Request Queue Section -->*/}

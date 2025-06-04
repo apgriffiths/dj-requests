@@ -2,18 +2,24 @@
 
 import RequestQueueSong from "./request-queue-song";
 import { getRequests } from "@/app/lib/actions";
-import postgres from "postgres";
+//import postgres from "postgres";
 import { useEffect, useState } from "react";
+import { SongRequest } from "../../lib/definitions";
 
 export default function RequestQueue() {
-  const [requests, setRequests] = useState<postgres.Row[]>([]);
+  const [requests, setRequests] = useState<SongRequest[]>([]);
   const [loading, setLoading] = useState(true);
 
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const response: postgres.Row[] = await getRequests();
-      setRequests(response);
+      const response = await getRequests();
+      if (!response.success || (response.data?.length ?? 0) === 0) {
+        console.warn("No requests found or response is empty.");
+        setRequests([]);
+        return;
+      }
+      setRequests(response?.data || []);
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
