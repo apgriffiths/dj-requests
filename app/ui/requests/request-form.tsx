@@ -46,7 +46,9 @@ export default function Form() {
       {/*<!-- Request Type -->*/}
       <div id="request-success" aria-live="polite" aria-atomic="true">
         {state.message && (
-          <p className="mt-2 text-sm text-green-500">{state.message}</p>
+          <p className="mt-2 text-sm text-green-500 text-center">
+            {state.message}
+          </p>
         )}
       </div>
       <div id="request-error" aria-live="polite" aria-atomic="true">

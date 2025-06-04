@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { getCurrentSong } from "@/app/lib/actions";
-import postgres from "postgres";
 
 export default function CurrentlyPlaying() {
   const [loading, setLoading] = useState(true);
@@ -11,13 +10,31 @@ export default function CurrentlyPlaying() {
   const fetchRequests = async () => {
     setLoading(true);
     try {
-      const response: postgres.Row[] = await getCurrentSong();
-      if (response.length > 0) {
-        const { trackname, artist } = response[0];
-        setCurrentlyPlaying(`${trackname}` + (artist ? `by ${artist}` : ""));
-      } else {
-        setCurrentlyPlaying("No song is currently playing.");
-      }
+      //const response: SongRequest[] = await getCurrentSong();
+      getCurrentSong()
+        .then((response) => {
+          if (response.success && response.data) {
+            if (response.data.length > 0) {
+              const { trackname, artist } = response.data[0];
+              setCurrentlyPlaying(
+                `${trackname}` + (artist ? ` by ${artist}` : "")
+              );
+              return response.data;
+            } else {
+              setCurrentlyPlaying("No song is currently playing.");
+              return [];
+            }
+          } else {
+            throw new Error(response.error || "Failed to fetch current song");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching current song:", error);
+          return [];
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     } catch (error) {
       console.error("Error fetching data:", error);
     } finally {
