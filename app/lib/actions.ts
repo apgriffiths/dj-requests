@@ -83,6 +83,7 @@ export async function getRequests(): Promise<{
   error?: string;
 }> {
   try {
+    console.log("URL string", process.env.POSTGRES_URL);
     const requests = await sql<SongRequest[]>`
       SELECT * FROM requests
       WHERE requests.isarchived = false
