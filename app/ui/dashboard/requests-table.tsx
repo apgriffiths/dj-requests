@@ -8,7 +8,6 @@ import {
   Filter,
   Play,
   Check,
-  X,
   Clock,
   Music,
   Zap,
@@ -50,16 +49,12 @@ const SongRequestTable = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "pending":
+      case "PENDING":
         return <Clock className="w-4 h-4 text-yellow-400" />;
-      case "approved":
-        return <Check className="w-4 h-4 text-cyan-400" />;
-      case "playing":
+      case "PLAYING":
         return <Play className="w-4 h-4 text-blue-400" />;
-      case "played":
+      case "PLAYED":
         return <Check className="w-4 h-4 text-gray-400" />;
-      case "rejected":
-        return <X className="w-4 h-4 text-red-400" />;
       default:
         return null;
     }
@@ -67,16 +62,12 @@ const SongRequestTable = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "pending":
+      case "PENDING":
         return "bg-yellow-500/20 text-yellow-300 border-yellow-500/50 shadow-yellow-500/20";
-      case "approved":
-        return "bg-cyan-500/20 text-cyan-300 border-cyan-500/50 shadow-cyan-500/20";
-      case "playing":
+      case "PLAYING":
         return "bg-blue-500/20 text-blue-300 border-blue-500/50 shadow-blue-500/30 animate-pulse";
-      case "played":
+      case "PLAYED":
         return "bg-gray-500/20 text-gray-300 border-gray-500/50";
-      case "rejected":
-        return "bg-red-500/20 text-red-300 border-red-500/50";
       default:
         return "bg-gray-500/20 text-gray-300 border-gray-500/50";
     }
@@ -126,12 +117,12 @@ const SongRequestTable = () => {
 
   const handleStatusChange = (
     id: string,
-    newStatus: "pending" | "playing" | "played"
+    newStatus: "PENDING" | "PLAYING" | "PLAYED"
   ) => {
     const checkForPlayingStatus = requests.some(
-      (req) => req.status === "playing" && req.id !== id // Ensure only one request can be "playing" at a time
+      (req) => req.status === "PLAYING" && req.id !== id // Ensure only one request can be "playing" at a time
     );
-    if (newStatus === "playing" && checkForPlayingStatus) {
+    if (newStatus === "PLAYING" && checkForPlayingStatus) {
       toast.error(
         "Another request is already playing. Please update that first."
       );
@@ -256,13 +247,13 @@ const SongRequestTable = () => {
                     <option value="all" className="bg-gray-900">
                       All Tracks
                     </option>
-                    <option value="pending" className="bg-gray-900">
+                    <option value="PENDING" className="bg-gray-900">
                       Pending
                     </option>
-                    <option value="playing" className="bg-gray-900">
+                    <option value="PLAYING" className="bg-gray-900">
                       Now Playing
                     </option>
-                    <option value="played" className="bg-gray-900">
+                    <option value="PLAYED" className="bg-gray-900">
                       Played
                     </option>
                   </select>
@@ -387,7 +378,7 @@ const SongRequestTable = () => {
                       ></div>
                       <span
                         className={`relative inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold border ${getStatusColor(
-                          request.status
+                          request.status.toUpperCase()
                         )} backdrop-blur-sm`}
                       >
                         {getStatusIcon(request.status)}
@@ -402,10 +393,10 @@ const SongRequestTable = () => {
                   </td>
                   <td className="px-6 py-6">
                     <div className="flex items-center justify-center gap-2">
-                      {request.status === "pending" && (
+                      {request.status === "PENDING" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(request.id, "playing")
+                            handleStatusChange(request.id, "PLAYING")
                           }
                           className="relative p-2 text-blue-400 hover:text-blue-300 hover:bg-blue-500/20 rounded-lg transition-all duration-200 group/btn"
                           title="Mark as Playing"
@@ -414,10 +405,10 @@ const SongRequestTable = () => {
                           <Play className="relative w-5 h-5" />
                         </button>
                       )}
-                      {request.status !== "played" && (
+                      {request.status !== "PLAYED" && (
                         <button
                           onClick={() =>
-                            handleStatusChange(request.id, "played")
+                            handleStatusChange(request.id, "PLAYED")
                           }
                           className="relative p-2 text-cyan-400 hover:text-cyan-300 hover:bg-cyan-500/20 rounded-lg transition-all duration-200 group/btn"
                           title="Mark as Played"

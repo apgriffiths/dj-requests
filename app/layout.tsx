@@ -3,6 +3,9 @@ import { Audiowide, Quicksand, Poiret_One } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import { CircleCheckBig, CircleX } from "lucide-react";
+import { Providers } from "@/components/Providers";
+import { authOptions } from "./lib/auth";
+import { getServerSession } from "next-auth/next";
 
 const audioWide = Audiowide({
   variable: "--font-audiowide",
@@ -42,43 +45,46 @@ export const metadata: Metadata = {
   ],
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await getServerSession(authOptions);
   return (
     <html lang="en">
       <body
         className={`${audioWide.variable} ${quicksand.variable} ${poiretOne.variable} antialiased`}
       >
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 4000,
-            style: {
-              background: "#363636",
-              color: "#fff",
-              padding: "16px",
-              borderRadius: "8px",
-            },
-            success: {
-              icon: <CircleCheckBig size={20} color="#10b981" />,
+        <Providers session={session}>
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              duration: 4000,
               style: {
-                background: "#065f46",
+                background: "#363636",
                 color: "#fff",
+                padding: "16px",
+                borderRadius: "8px",
               },
-            },
-            error: {
-              icon: <CircleX size={20} color="#ef4444" />,
-              style: {
-                background: "#991b1b",
-                color: "#fff",
+              success: {
+                icon: <CircleCheckBig size={20} color="#10b981" />,
+                style: {
+                  background: "#065f46",
+                  color: "#fff",
+                },
               },
-            },
-          }}
-        />
-        {children}
+              error: {
+                icon: <CircleX size={20} color="#ef4444" />,
+                style: {
+                  background: "#991b1b",
+                  color: "#fff",
+                },
+              },
+            }}
+          />
+          {children}
+        </Providers>
       </body>
     </html>
   );

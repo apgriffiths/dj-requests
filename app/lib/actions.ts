@@ -28,7 +28,7 @@ const FormSchema = z.object({
     invalid_type_error: "Please select a request type.",
   }),
   date: z.string(),
-  status: z.enum(["pending", "playing", "played"], {
+  status: z.enum(["PENDING", "PLAYING", "PLAYED"], {
     required_error: "Please select a status.",
   }),
   isarchived: z.boolean(),
@@ -104,7 +104,8 @@ export async function getCurrentSong(): Promise<{
   try {
     const currentSong = await sql<SongRequest[]>`
       SELECT * FROM requests
-      WHERE requests.status = 'playing'
+      WHERE requests.status = 'PLAYING' 
+      AND requests.isarchived = false
       ORDER BY requests.date DESC
       LIMIT 1
     `;
@@ -154,7 +155,7 @@ export async function updateSongRequest(
       SET 
         trackName = ${data.trackname.trim()},
         artist = ${data.artist.trim()},
-        status = ${data.status},
+        status = ${data.status.toUpperCase()},
         isPremium = ${data.ispremium},
         isarchived = ${data.isarchived}
       WHERE id = ${id}
