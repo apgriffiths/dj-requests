@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Role } from "@prisma/client";
 
 // Create a global Prisma client instance for serverless
 const globalForPrisma = globalThis as unknown as {
@@ -19,7 +19,7 @@ export interface UserWithRole {
 
 export async function updateUserRole(
   userId: string,
-  newRole: string
+  newRole: Role
 ): Promise<UserWithRole> {
   try {
     const user = await prisma.user.update({
@@ -40,7 +40,7 @@ export async function updateUserRole(
   }
 }
 
-export async function getUsersByRole(role: string): Promise<UserWithRole[]> {
+export async function getUsersByRole(role: Role): Promise<UserWithRole[]> {
   try {
     const users = await prisma.user.findMany({
       where: { role },
