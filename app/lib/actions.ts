@@ -4,11 +4,7 @@ import { z } from "zod";
 import postgres from "postgres";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import {
-  SongRequest,
-  // CreateSongRequestInput,
-  UpdateSongRequestInput,
-} from "./definitions";
+import { SongRequest, UpdateSongRequestInput } from "./definitions";
 
 const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
 
