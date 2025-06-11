@@ -43,7 +43,7 @@ export async function middleware(req: NextRequest) {
     return response;
   } catch (error) {
     console.error("Authentication check failed:", error);
-    return NextResponse.redirect(new URL("/login", req.url));
+    return NextResponse.redirect(new URL("/auth/signin", req.url));
   }
 }
 
