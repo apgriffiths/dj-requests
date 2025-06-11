@@ -36,10 +36,11 @@ async function seedRequests() {
   await sql`
     CREATE TABLE IF NOT EXISTS requests (
       id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-      trackName VARCHAR(255) NULL,
+      trackname VARCHAR(255) NULL,
       artist VARCHAR(255) NULL,
-      isPremium BOOLEAN NOT NULL,
-      isPlaying BOOLEAN DEFAULT FALSE,
+      ispremium BOOLEAN NOT NULL DEFAULT FALSE,
+      isarchived BOOLEAN DEFAULT FALSE,
+      status VARCHAR(20) NOT NULL DEFAULT 'pending',
       date TIMESTAMPTZ NOT NULL
     );
   `;
@@ -47,8 +48,8 @@ async function seedRequests() {
   const insertedRequests = await Promise.all(
     requests.map(
       (request) => sql`
-        INSERT INTO requests (trackName, artist, isPremium, isPlaying, date)
-        VALUES (${request.trackName}, ${request.artist}, ${request.isPremium}, ${request.isPlaying}, ${request.date})
+        INSERT INTO requests (trackname, artist, ispremium, isarchived, status, date)
+        VALUES (${request.trackname}, ${request.artist}, ${request.ispremium}, ${request.isarchived}, ${request.status}, ${request.date})
         ON CONFLICT (id) DO NOTHING;
       `
     )
