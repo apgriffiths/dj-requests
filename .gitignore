@@ -42,5 +42,4 @@ next-env.d.ts
 
 /app/generated/prisma
 
-/app/lib/userRoles.ts
-/app/debug
+app/seed/*
